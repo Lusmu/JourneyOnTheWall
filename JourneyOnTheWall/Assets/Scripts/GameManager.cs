@@ -11,6 +11,8 @@ namespace JourneyOnTheWall
 
 		private Transform helperTransform;
 
+		private Vector3 touchBeginPosition;
+
 		void Awake()
 		{
 			Instance = this;
@@ -32,6 +34,8 @@ namespace JourneyOnTheWall
 
 		public void BackgroundTouched()
 		{
+			if (Vector3.Distance(Input.mousePosition, touchBeginPosition) > 20) return; // TODO swipe
+
 			if (SelectedCharacter != null)
 			{
 				var mover = SelectedCharacter.GetComponent<MoveController>();
@@ -45,6 +49,11 @@ namespace JourneyOnTheWall
 					mover.Move(helperTransform.rotation);
 				}
 			}
+		}
+
+		public void BeginTouchingBackground()
+		{
+			touchBeginPosition = Input.mousePosition;
 		}
 	}
 }
