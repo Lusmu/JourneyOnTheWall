@@ -15,7 +15,6 @@ namespace JourneyOnTheWall
 
 		void Awake()
 		{
-
 			// Fixed screen orientation for mobile platforms
 			Screen.orientation = ScreenOrientation.LandscapeLeft;
 
@@ -24,7 +23,6 @@ namespace JourneyOnTheWall
 			var go = new GameObject("HelperTransform");
 			helperTransform = go.GetComponent<Transform>();
 			helperTransform.position = Vector3.zero;
-		
 		}
 
 		public void SelectCharacter(SelectableController characterController)
@@ -68,7 +66,11 @@ namespace JourneyOnTheWall
 
 		public void SetTarget(Target target)
 		{
-			// Unused for now
+			if (SelectedCharacter != null) 
+			{
+				var mover = SelectedCharacter.GetComponent<MoveController>();
+				if (mover != null) mover.Move(target.GetComponent<Transform>());
+			}
 		}
 	}
 }

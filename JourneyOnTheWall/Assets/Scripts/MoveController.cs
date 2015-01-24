@@ -19,7 +19,7 @@ namespace JourneyOnTheWall
 
 		private bool facingRight = true;
 
-		private Quaternion target;
+		private Quaternion targetRotation;
 
 		private Transform tr;
 
@@ -38,6 +38,8 @@ namespace JourneyOnTheWall
 
 		private Quaternion lastPosition;
 
+		private Transform target;
+
 		private float timeIdle = 0;
 
 		void Awake()
@@ -48,8 +50,16 @@ namespace JourneyOnTheWall
 
 		public void Move(Quaternion target)
 		{
-			this.target = target;
+			this.targetRotation = target;
 
+			isMoving = true;
+		}
+
+		public void Move(Transform target)
+		{
+			this.target = target;
+			this.targetRotation = target.rotation;
+			
 			isMoving = true;
 		}
 
@@ -86,22 +96,28 @@ namespace JourneyOnTheWall
 
 		void Update()
 		{
-			if (isMoving )
+			if (target != null)
 			{
-				var moveTo = Quaternion.RotateTowards(tr.rotation, target, Time.deltaTime * speed).eulerAngles;
+				isMoving = true;
+				targetRotation = target.rotation;
+			}
+
+			if (isMoving)
+			{
+				var moveTo = Quaternion.RotateTowards(tr.rotation, targetRotation, Time.deltaTime * speed).eulerAngles;
 				moveTo.x = Mathf.Clamp(moveTo.x, 300, 355);
 				tr.rotation = Quaternion.Euler(moveTo);
-				if (Quaternion.Angle(tr.rotation, target) < 0.1f) isMoving = false;
+				if (Quaternion.Angle(tr.rotation, targetRotation) < 0.1f) isMoving = false;
 			
 				var shouldFaceRight = true;
 
-				if (Mathf.Abs(target.eulerAngles.y - tr.eulerAngles.y) > 180)
+				if (Mathf.Abs(targetRotation.eulerAngles.y - tr.eulerAngles.y) > 180)
 				{
-					if (target.eulerAngles.y < tr.eulerAngles.y) shouldFaceRight = false;
+					if (targetRotation.eulerAngles.y < tr.eulerAngles.y) shouldFaceRight = false;
 				}
 				else
 				{
-					if (target.eulerAngles.y > tr.eulerAngles.y) shouldFaceRight = false;
+					if (targetRotation.eulerAngles.y > tr.eulerAngles.y) shouldFaceRight = false;
 				}
 
 				if (shouldFaceRight != facingRight) Flip();
