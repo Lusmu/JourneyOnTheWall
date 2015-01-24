@@ -20,15 +20,21 @@ namespace JourneyOnTheWall
 		public float Leather { get; private set; }
 		public float Tools { get; private set; }
 	
+		private static GameObject playerClanManagerPrefab;
 		private static Clan playerClan;
 		public static Clan PlayerClan 
 		{ 
 			get 
 			{
+				if (playerClanManagerPrefab == null)
+				{
+					playerClanManagerPrefab = Resources.Load("Player Clan Manager") as GameObject;
+				}
+
 				if (playerClan == null)
 				{
-					GameObject go = new GameObject("Clan Manager");
-					playerClan = go.AddComponent<Clan>();
+					GameObject go = Instantiate(playerClanManagerPrefab) as GameObject;
+					playerClan = go.GetComponent<Clan>();
 				}
 				return playerClan;
 			}
