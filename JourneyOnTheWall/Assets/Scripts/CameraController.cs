@@ -32,6 +32,8 @@ namespace JourneyOnTheWall
 		{
 			isDragging = true;
 
+			lastMousePosition = Input.mousePosition;
+
 			lastTouches.Clear();
 		}
 
