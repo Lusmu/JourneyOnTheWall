@@ -26,6 +26,11 @@ namespace JourneyOnTheWall
 		private bool isMoving = false;
 
 		[SerializeField]
+		private float gatherTime = 1;
+
+		private float lastGathered = 0;
+
+		[SerializeField]
 		private Animator anim;
 
 		private Quaternion lastPosition;
@@ -51,6 +56,21 @@ namespace JourneyOnTheWall
 			Vector3 scale = transform.localScale;
 			scale.x *= -1;
 			transform.localScale = scale;
+		}
+
+		public void OnCollision(Collidable other)
+		{
+			if (gatherTime > 0 && Time.time > lastGathered + gatherTime)
+			{
+				var plant = other.GetComponent<Plant>();
+
+				if (plant != null)
+				{
+					lastGathered = Time.time;
+
+					plant.Gather(1);
+				}
+			}
 		}
 
 		void Update()

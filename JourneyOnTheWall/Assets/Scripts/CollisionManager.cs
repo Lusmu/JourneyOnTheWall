@@ -134,11 +134,17 @@ namespace JourneyOnTheWall
 
 			for (int i = 0; i < collisions.Count; i++)
 			{
-				var move1 = collisions[i].collider1.GetComponent<CombatActor>();
+				var move1 = collisions[i].collider1.GetComponent<MoveController>();
 				if (move1 != null) move1.OnCollision(collisions[i].collider2);
 
-				var move2 = collisions[i].collider2.GetComponent<CombatActor>();
+				var move2 = collisions[i].collider2.GetComponent<MoveController>();
 				if (move2 != null) move2.OnCollision(collisions[i].collider1);
+
+				var combat = collisions[i].collider1.GetComponent<CombatActor>();
+				if (combat != null) combat.OnCollision(collisions[i].collider2);
+				
+				var combat2 = collisions[i].collider2.GetComponent<CombatActor>();
+				if (combat2 != null) combat2.OnCollision(collisions[i].collider1);
 			}
 		}
 

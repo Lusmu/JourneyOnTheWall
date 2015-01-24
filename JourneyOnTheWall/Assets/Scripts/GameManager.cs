@@ -65,5 +65,10 @@ namespace JourneyOnTheWall
 		{
 			touchBeginPosition = Input.mousePosition;
 		}
+
+		public void SetTarget(Target target)
+		{
+			// Unused for now
+		}
 	}
 }
