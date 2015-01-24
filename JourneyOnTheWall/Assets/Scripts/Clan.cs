@@ -76,8 +76,8 @@ namespace JourneyOnTheWall
 			else if (resource == ResourceType.Tool) 
 			{
 				Tools += amount;
-				leatherParticles.GetComponent<Transform>().parent.rotation = rotation;
-				leatherParticles.Emit(Mathf.RoundToInt(amount));
+				toolParticles.GetComponent<Transform>().parent.rotation = rotation;
+				toolParticles.Emit(Mathf.RoundToInt(amount));
 			}
 
 			Debug.Log("Player now has " + Food + " food, " + Leather + " leather and " + Tools + " tools");

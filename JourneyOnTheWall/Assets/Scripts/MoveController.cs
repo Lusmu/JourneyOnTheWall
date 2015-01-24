@@ -26,7 +26,10 @@ namespace JourneyOnTheWall
 		private bool isMoving = false;
 
 		[SerializeField]
-		private float gatherTime = 1;
+		private float foodGatherTime = 1;
+
+		[SerializeField]
+		private float toolsCreateTime = 10;
 
 		private float lastGathered = 0;
 
@@ -60,14 +63,22 @@ namespace JourneyOnTheWall
 
 		public void OnCollision(Collidable other)
 		{
-			if (gatherTime > 0 && Time.time > lastGathered + gatherTime)
+			var plant = other.GetComponent<Plant>();
+			if (plant != null && plant.RewardType == ResourceType.Food && foodGatherTime > 0 && Time.time > lastGathered + foodGatherTime)
 			{
-				var plant = other.GetComponent<Plant>();
-
 				if (plant != null)
 				{
 					lastGathered = Time.time;
 
+					plant.Gather(1);
+				}
+			}
+			else if (plant != null && plant.RewardType == ResourceType.Tool && toolsCreateTime > 0 && Time.time > lastGathered + toolsCreateTime)
+			{
+				if (plant != null)
+				{
+					lastGathered = Time.time;
+					
 					plant.Gather(1);
 				}
 			}
