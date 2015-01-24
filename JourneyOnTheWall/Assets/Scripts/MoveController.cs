@@ -51,6 +51,7 @@ namespace JourneyOnTheWall
 		public void Move(Quaternion target)
 		{
 			this.targetRotation = target;
+			this.target = null;
 
 			isMoving = true;
 		}
