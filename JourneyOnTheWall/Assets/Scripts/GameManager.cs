@@ -15,11 +15,16 @@ namespace JourneyOnTheWall
 
 		void Awake()
 		{
+
+			// Fixed screen orientation for mobile platforms
+			Screen.orientation = ScreenOrientation.LandscapeLeft;
+
 			Instance = this;
 
 			var go = new GameObject("HelperTransform");
 			helperTransform = go.GetComponent<Transform>();
 			helperTransform.position = Vector3.zero;
+		
 		}
 
 		public void SelectCharacter(SelectableController characterController)
