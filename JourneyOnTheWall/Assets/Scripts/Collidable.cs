@@ -22,5 +22,14 @@ namespace JourneyOnTheWall
 		{
 			CollisionManager.Instance.RegisterCollider(this);
 		}
+
+		void OnDrawGizmos()
+		{
+			if (tr != null)
+			{
+				Gizmos.color = new Color(1,1,1,0.5f);
+				Gizmos.DrawSphere(tr.forward * 100, size * 2);
+			}
+		}
 	}
 }
