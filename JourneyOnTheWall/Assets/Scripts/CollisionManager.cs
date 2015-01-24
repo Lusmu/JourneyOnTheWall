@@ -114,7 +114,6 @@ namespace JourneyOnTheWall
 							if (!collisions.Contains(col)) collisions.Add(col);
 						}
 					}
-
 				}
 			}
 
@@ -125,10 +124,10 @@ namespace JourneyOnTheWall
 
 			for (int i = 0; i < collisions.Count; i++)
 			{
-				var move1 = collisions[i].collider1.GetComponent<MoveController>();
+				var move1 = collisions[i].collider1.GetComponent<CombatActor>();
 				if (move1 != null) move1.OnCollision(collisions[i].collider2);
 
-				var move2 = collisions[i].collider2.GetComponent<MoveController>();
+				var move2 = collisions[i].collider2.GetComponent<CombatActor>();
 				if (move2 != null) move2.OnCollision(collisions[i].collider1);
 			}
 		}

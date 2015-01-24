@@ -17,25 +17,6 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private float speed = 10;
 
-		[SerializeField]
-		private float attackDelay = 1;
-
-		[SerializeField]
-		private float attackPower = 1;
-
-		[SerializeField]
-		private float maxHealth = 1;
-
-		[SerializeField]
-		private CreatureFaction faction;
-		public CreatureFaction Faction { get { return faction; }}
-
-		[SerializeField]
-		private List<CreatureFaction> hostileToFactions;
-
-		[SerializeField]
-		private float healRate = 0;
-
 		private bool facingRight = true;
 
 		private Quaternion target;
@@ -50,12 +31,6 @@ namespace JourneyOnTheWall
 		private Quaternion lastPosition;
 
 		private float timeIdle = 0;
-
-		public float Damage { get; private set; }
-
-		private float lastAttack;
-
-		private bool isDead = false;
 
 		void Awake()
 		{
@@ -116,39 +91,7 @@ namespace JourneyOnTheWall
 				if (timeIdle > 0.5f) anim.SetBool("Moving", false);
 			}
 
-			Damage -= Time.deltaTime * healRate;
-
 			lastPosition = tr.rotation;
-		}
-
-		public void TakeDamage(float amount)
-		{
-			Damage += amount;
-
-			if (Damage > maxHealth) Die ();
-		}
-
-		public void OnCollision(Collidable other)
-		{
-			var otherMover = other.GetComponent<MoveController>();
-			if (otherMover == null) return;
-
-			if (attackPower > 0 && hostileToFactions.Contains(otherMover.Faction) && Time.time > lastAttack + attackDelay)
-			{
-				lastAttack = Time.time;
-				otherMover.TakeDamage(attackPower);
-				// TODO animate attack
-				Debug.Log(gameObject.name + " hit " + other.gameObject.name);
-			}
-		}
-
-		public void Die()
-		{
-			if (isDead) return;
-
-			isDead = true;
-
-			Destroy(gameObject);
 		}
 	}
 }
