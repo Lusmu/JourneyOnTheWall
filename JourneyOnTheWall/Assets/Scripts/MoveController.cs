@@ -25,6 +25,8 @@ namespace JourneyOnTheWall
 		void Update()
 		{
 			tr.rotation = Quaternion.RotateTowards(tr.rotation, target, Time.deltaTime * speed);
+
+			// TODO flip when changing direction
 		}
 	}
 }
