@@ -14,6 +14,8 @@ namespace JourneyOnTheWall
 
 	public class MoveController : MonoBehaviour 
 	{
+		public bool collideOnBorders = true;
+
 		[SerializeField]
 		private float speed = 10;
 
@@ -106,7 +108,7 @@ namespace JourneyOnTheWall
 			if (isMoving)
 			{
 				var moveTo = Quaternion.RotateTowards(tr.rotation, targetRotation, Time.deltaTime * speed).eulerAngles;
-				moveTo.x = Mathf.Clamp(moveTo.x, 300, 355);
+				if (collideOnBorders) moveTo.x = Mathf.Clamp(moveTo.x, 300, 355);
 				tr.rotation = Quaternion.Euler(moveTo);
 				if (Quaternion.Angle(tr.rotation, targetRotation) < 0.1f) isMoving = false;
 			
