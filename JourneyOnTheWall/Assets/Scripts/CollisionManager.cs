@@ -6,7 +6,20 @@ namespace JourneyOnTheWall
 {
 	public class CollisionManager : MonoBehaviour 
 	{
-		public static CollisionManager Instance { get; private set; }
+		private static CollisionManager _instance;
+		public static CollisionManager Instance
+		{
+			get
+			{
+				if (_instance == null)
+				{
+					GameObject go = new GameObject("CollisionManager");
+					_instance = go.AddComponent<CollisionManager>();
+				}
+
+				return _instance;
+			}
+		}
 
 		private List<Collidable> dynamicColliders;
 		private List<Collidable> staticColliders;
@@ -15,8 +28,6 @@ namespace JourneyOnTheWall
 
 		void Awake()
 		{
-			Instance = this;
-
 			dynamicColliders = new List<Collidable>();
 			staticColliders = new List<Collidable>();
 		}
