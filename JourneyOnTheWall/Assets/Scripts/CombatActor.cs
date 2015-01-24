@@ -28,6 +28,12 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private Animator anim;
 
+		[SerializeField]
+		private int foodReward = 0;
+
+		[SerializeField]
+		private int leatherReward = 0;
+
 		public float Damage { get; private set; }
 		
 		private float lastAttack;
@@ -65,7 +71,10 @@ namespace JourneyOnTheWall
 			if (isDead) return;
 			
 			isDead = true;
-			
+
+			if (leatherReward > 0) Clan.PlayerClan.AddResource(ResourceType.Leather, leatherReward);
+			if (foodReward > 0) Clan.PlayerClan.AddResource(ResourceType.Food, foodReward);
+
 			Destroy(gameObject);
 		}
 	}
