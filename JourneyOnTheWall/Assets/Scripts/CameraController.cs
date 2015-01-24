@@ -54,7 +54,7 @@ namespace JourneyOnTheWall
 
 			momentumDir = Vector3.zero;
 
-			if (lastTouches.Count > 5)
+			if (lastTouches.Count > 10)
 			{
 				for (int i = 0; i < lastTouches.Count; i ++)
 				{
@@ -83,7 +83,7 @@ namespace JourneyOnTheWall
 
 				lastTouches.Add(Input.mousePosition - lastMousePosition);
 
-				if (lastTouches.Count > 30) lastTouches.RemoveAt(0);
+				if (lastTouches.Count > 15) lastTouches.RemoveAt(0);
 			}
 			else if (momentum > 0)
 			{
