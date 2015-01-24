@@ -27,7 +27,7 @@ Shader "Custom/dist" {
             #define UNITY_PASS_FORWARDBASE
             #include "UnityCG.cginc"
             #pragma multi_compile_fwdbase_fullshadows
-            #pragma exclude_renderers xbox360 ps3 flash 
+            #pragma exclude_renderers opengl d3d9 xbox360 ps3 flash 
             #pragma target 3.0
             #pragma glsl
             uniform sampler2D _Rendertexture; uniform float4 _Rendertexture_ST;

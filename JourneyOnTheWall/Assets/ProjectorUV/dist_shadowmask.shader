@@ -28,7 +28,7 @@ Shader "Custom/dist_shadowmask" {
             #define UNITY_PASS_FORWARDBASE
             #include "UnityCG.cginc"
             #pragma multi_compile_fwdbase_fullshadows
-            #pragma exclude_renderers xbox360 ps3 flash 
+            #pragma exclude_renderers d3d9 opengl gles xbox360 ps3 flash 
             #pragma target 3.0
             #pragma glsl
             uniform sampler2D _Rendertexture; uniform float4 _Rendertexture_ST;
@@ -51,10 +51,10 @@ Shader "Custom/dist_shadowmask" {
             fixed4 frag(VertexOutput i) : COLOR {
 ////// Lighting:
 ////// Emissive:
-                float2 node_132 = i.uv0;
-                float4 node_43 = tex2Dlod(_distortionUV,float4(TRANSFORM_TEX(node_132.rg, _distortionUV),0.0,3.0));
+                float2 node_130 = i.uv0;
+                float4 node_43 = tex2Dlod(_distortionUV,float4(TRANSFORM_TEX(node_130.rg, _distortionUV),0.0,3.0));
                 float2 node_21 = float2(node_43.r,node_43.g);
-                float3 emissive = (tex2D(_Rendertexture,TRANSFORM_TEX(node_21, _Rendertexture)).rgb*tex2D(_Shadowmask,TRANSFORM_TEX(node_132.rg, _Shadowmask)).rgb);
+                float3 emissive = (tex2D(_Rendertexture,TRANSFORM_TEX(node_21, _Rendertexture)).rgb*tex2D(_Shadowmask,TRANSFORM_TEX(node_130.rg, _Shadowmask)).rgb);
                 float3 finalColor = emissive;
 /// Final Color:
                 return fixed4(finalColor,1);
