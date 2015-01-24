@@ -1,13 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace JourneyOnTheWall
 {
+	public enum CreatureFaction
+	{
+		Unknown = 0,
+		PlayerClan = 1,
+		Predator = 2,
+		PassiveAnimal = 3
+	}
+
 	public class MoveController : MonoBehaviour 
 	{
 		[SerializeField]
 		private float speed = 10;
-		
+
 		private bool facingRight = true;
 
 		private Quaternion target;
