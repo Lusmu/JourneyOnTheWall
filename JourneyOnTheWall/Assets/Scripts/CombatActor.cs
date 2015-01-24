@@ -37,6 +37,9 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private ParticleSystem damagedParticles;
 
+		[SerializeField]
+		private ParticleSystem healParticles;
+
 		public float Damage { get; private set; }
 		
 		private float lastAttack;
@@ -91,6 +94,8 @@ namespace JourneyOnTheWall
 
 		public void Heal(float amount)
 		{
+			if (healParticles != null) healParticles.Play();
+
 			Damage = Mathf.Clamp(Damage - amount, 0, maxHealth);
 		}
 	}

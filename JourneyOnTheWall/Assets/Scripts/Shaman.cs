@@ -20,7 +20,6 @@ namespace JourneyOnTheWall
 
 			if (combatActor != null)
 			{
-				Debug.Log("Shaman hit by " + other.gameObject.name + " damage: " + combatActor.Damage + " " + Time.time + " > " + lastHealed + " + " + healingInterval);
 				if (combatActor.Damage > 0 && Time.time > lastHealed + healingInterval)
 				{
 					lastHealed = Time.time;
