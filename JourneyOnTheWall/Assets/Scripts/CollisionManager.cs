@@ -145,6 +145,12 @@ namespace JourneyOnTheWall
 				
 				var combat2 = collisions[i].collider2.GetComponent<CombatActor>();
 				if (combat2 != null) combat2.OnCollision(collisions[i].collider1);
+
+				var clanMember = collisions[i].collider1.GetComponent<ClanMember>();
+				if (clanMember != null) clanMember.OnCollision(collisions[i].collider2);
+				
+				var clanMember2 = collisions[i].collider2.GetComponent<ClanMember>();
+				if (clanMember2 != null) clanMember2.OnCollision(collisions[i].collider1);
 			}
 		}
 

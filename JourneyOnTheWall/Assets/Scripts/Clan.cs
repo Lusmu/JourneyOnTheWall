@@ -47,16 +47,35 @@ namespace JourneyOnTheWall
 			}
 		}
 
+		public int PeopleCount 
+		{
+			get 
+			{
+				int count = 0;
+
+				for (int i = 0; i < People.Count; i++)
+				{
+					if (People[i] == null)
+					{
+						People.RemoveAt(i);
+						i--;
+						continue;
+					}
+					else
+					{
+						count ++;
+					}
+				}
+
+				return count;
+			}
+		}
+
 		public void AddMember(GameObject member)
 		{
 			if (People == null) People = new List<GameObject>();
 
 			People.Add(member);
-		}
-
-		public void RemoveMember(GameObject member)
-		{
-			People.Remove(member);
 		}
 
 		public void AddResource(ResourceType resource, float amount, Quaternion rotation)

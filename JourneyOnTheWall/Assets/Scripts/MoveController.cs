@@ -43,7 +43,7 @@ namespace JourneyOnTheWall
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
-			anim.SetBool("Moving", false);
+			if (anim != null) anim.SetBool("Moving", false);
 		}
 
 		public void Move(Quaternion target)
