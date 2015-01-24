@@ -10,6 +10,14 @@ namespace JourneyOnTheWall
 		private float speed = 10;
 		[SerializeField]
 		private float damping = 0.05f;
+		[SerializeField]
+		private float minFov = 20;
+		[SerializeField]
+		private float maxFov = 80;
+		[SerializeField]
+		private float zoomSpeedScroll = 10;
+		[SerializeField]
+		private float zoomSpeedPinch = 10;
 
 		private bool isDragging = false;
 
@@ -23,9 +31,12 @@ namespace JourneyOnTheWall
 
 		private Vector3 momentumDir;
 
+		private Camera targetCamera;
+
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
+			targetCamera = GetComponent<Camera>();
 		}
 
 		public void BeginTouch()
@@ -62,14 +73,13 @@ namespace JourneyOnTheWall
 
 		void Update()
 		{
+			var newRotation = tr.eulerAngles;
+
 			if (isDragging)
 			{
 				var diff = Input.mousePosition - lastMousePosition;
 
-				var newRotation = tr.eulerAngles - diff.x * Vector3.up * speed + diff.y * Vector3.right * speed;
-				newRotation.x = Mathf.Clamp(newRotation.x, 300, 330);
-
-				tr.eulerAngles = newRotation;
+				newRotation = tr.eulerAngles - diff.x * Vector3.up * speed + diff.y * Vector3.right * speed;
 
 				lastTouches.Add(Input.mousePosition - lastMousePosition);
 
@@ -77,15 +87,42 @@ namespace JourneyOnTheWall
 			}
 			else if (momentum > 0)
 			{
-
-				var newRotation = tr.eulerAngles - momentum * momentumDir.x * Vector3.up * speed + momentum * momentumDir.y * Vector3.right * speed;
-				newRotation.x = Mathf.Clamp(newRotation.x, 300, 330);
-				
-				tr.eulerAngles = newRotation;
+				newRotation = tr.eulerAngles - momentum * momentumDir.x * Vector3.up * speed + momentum * momentumDir.y * Vector3.right * speed;
 
 				momentum -= Time.deltaTime;
 			}
 
+			if (Input.touchCount == 2)
+			{
+				// Store both touches.
+				Touch touchZero = Input.GetTouch(0);
+				Touch touchOne = Input.GetTouch(1);
+				
+				// Find the position in the previous frame of each touch.
+				Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+				Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+				
+				// Find the magnitude of the vector (the distance) between the touches in each frame.
+				float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+				float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+				
+				// Find the difference in the distances between each frame.
+				float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+
+				// Otherwise change the field of view based on the change in distance between the touches.
+				targetCamera.fieldOfView += deltaMagnitudeDiff * zoomSpeedPinch;
+
+				targetCamera.fieldOfView = Mathf.Clamp(camera.fieldOfView, minFov, maxFov);
+			}
+			else
+			{
+				var zoomSpeed = Input.mouseScrollDelta.y * zoomSpeedScroll;
+				targetCamera.fieldOfView = Mathf.Clamp(targetCamera.fieldOfView - zoomSpeed, minFov, maxFov);
+			}
+			
+			newRotation.x = Mathf.Clamp(newRotation.x, 270 + targetCamera.fieldOfView * 0.5f, 360 - targetCamera.fieldOfView * 0.5f);
+
+			tr.eulerAngles = newRotation;
 
 			lastMousePosition = Input.mousePosition;
 		}
