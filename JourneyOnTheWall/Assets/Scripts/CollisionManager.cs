@@ -40,6 +40,8 @@ namespace JourneyOnTheWall
 
 		void LateUpdate()
 		{
+			var collisions = new List<CollisionData>();
+
 			for (int i = 0; i < dynamicColliders.Count; i++)
 			{
 				dynamicColliders[i].TempRotation = dynamicColliders[i].tr.rotation;
@@ -78,6 +80,9 @@ namespace JourneyOnTheWall
 
 							dynamicColliders[j].TempRotation = Quaternion.Euler(desiredAngle);
 							dynamicColliders[k].TempRotation = Quaternion.Euler(desiredAngle2);
+
+							var col = new CollisionData(dynamicColliders[j], dynamicColliders[k]);
+							if (!collisions.Contains(col)) collisions.Add(col);
 						}
 					}
 
@@ -97,14 +102,54 @@ namespace JourneyOnTheWall
 							desiredAngle.x = Mathf.Clamp(desiredAngle.x, 300, 355);
 							
 							dynamicColliders[j].TempRotation = Quaternion.Euler(desiredAngle);
+
+							var col = new CollisionData(dynamicColliders[j], staticColliders[k]);
+							if (!collisions.Contains(col)) collisions.Add(col);
 						}
 					}
+
 				}
 			}
 
 			for (int i = 0; i < dynamicColliders.Count; i++)
 			{
 				dynamicColliders[i].tr.rotation = dynamicColliders[i].TempRotation;
+			}
+
+			for (int i = 0; i < collisions.Count; i++)
+			{
+				var move1 = collisions[i].collider1.GetComponent<MoveController>();
+				if (move1 != null) move1.OnCollision(collisions[i].collider2);
+
+				var move2 = collisions[i].collider2.GetComponent<MoveController>();
+				if (move2 != null) move2.OnCollision(collisions[i].collider1);
+			}
+		}
+
+		class CollisionData
+		{
+			public Collidable collider1;
+			public Collidable collider2;
+
+			public CollisionData(Collidable collider1, Collidable collider2)
+			{
+				this.collider1 = collider1;
+				this.collider2 = collider2;
+			}
+
+			public override bool Equals (object other)
+			{
+				var a = other as CollisionData;
+
+				if (a == null) return false;
+
+				return (collider1 == a.collider1 && collider2 == a.collider2) 
+					|| (collider1 == a.collider2 && collider2 == a.collider1);
+			}
+
+			public override int GetHashCode ()
+			{
+				return base.GetHashCode ();
 			}
 		}
 	}
