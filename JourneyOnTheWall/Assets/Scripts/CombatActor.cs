@@ -34,6 +34,12 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private int leatherReward = 0;
 
+		[SerializeField]
+		private ParticleSystem damagedParticles;
+
+		[SerializeField]
+		private ParticleSystem healParticles;
+
 		public float Damage { get; private set; }
 		
 		private float lastAttack;
@@ -68,7 +74,9 @@ namespace JourneyOnTheWall
 		public void TakeDamage(float amount)
 		{
 			Damage += amount;
-			
+
+			if (damagedParticles != null) damagedParticles.Emit(Mathf.RoundToInt(amount * 10));
+
 			if (Damage > maxHealth) Die ();
 		}
 		
@@ -86,6 +94,8 @@ namespace JourneyOnTheWall
 
 		public void Heal(float amount)
 		{
+			if (healParticles != null) healParticles.Play();
+
 			Damage = Mathf.Clamp(Damage - amount, 0, maxHealth);
 		}
 	}

@@ -107,14 +107,14 @@ namespace JourneyOnTheWall
 						{
 							var eulerDiff = dynamicColliders[j].TempRotation.eulerAngles - staticColliders[k].tr.eulerAngles;
 							
-							eulerDiff = eulerDiff.normalized;
+							//eulerDiff = eulerDiff.normalized;
 
 							if (Mathf.Abs(dynamicColliders[j].TempRotation.eulerAngles.y - staticColliders[k].tr.eulerAngles.y) > 180)
 							{
 								eulerDiff.y *= -1;
 							}
 							
-							var desiredAngle = dynamicColliders[j].TempRotation.eulerAngles + eulerDiff * maxAngle * Time.deltaTime;
+							var desiredAngle = dynamicColliders[j].TempRotation.eulerAngles + eulerDiff * maxAngle * Time.deltaTime * 0.1f;
 							desiredAngle.z = 0;
 							desiredAngle.x = Mathf.Clamp(desiredAngle.x, 300, 355);
 							
