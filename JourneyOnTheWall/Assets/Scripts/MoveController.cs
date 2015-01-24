@@ -19,14 +19,17 @@ namespace JourneyOnTheWall
 
 		private bool facingRight = true;
 
-		private Quaternion target;
+		private Quaternion targetRotation;
 
 		private Transform tr;
 
 		private bool isMoving = false;
 
 		[SerializeField]
-		private float gatherTime = 1;
+		private float foodGatherTime = 1;
+
+		[SerializeField]
+		private float toolsCreateTime = 10;
 
 		private float lastGathered = 0;
 
@@ -35,18 +38,28 @@ namespace JourneyOnTheWall
 
 		private Quaternion lastPosition;
 
+		private Transform target;
+
 		private float timeIdle = 0;
 
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
-			anim.SetBool("Moving", false);
+			if (anim != null) anim.SetBool("Moving", false);
 		}
 
 		public void Move(Quaternion target)
 		{
-			this.target = target;
+			this.targetRotation = target;
 
+			isMoving = true;
+		}
+
+		public void Move(Transform target)
+		{
+			this.target = target;
+			this.targetRotation = target.rotation;
+			
 			isMoving = true;
 		}
 
@@ -60,10 +73,9 @@ namespace JourneyOnTheWall
 
 		public void OnCollision(Collidable other)
 		{
-			if (gatherTime > 0 && Time.time > lastGathered + gatherTime)
+			var plant = other.GetComponent<Plant>();
+			if (plant != null && plant.RewardType == ResourceType.Food && foodGatherTime > 0 && Time.time > lastGathered + foodGatherTime)
 			{
-				var plant = other.GetComponent<Plant>();
-
 				if (plant != null)
 				{
 					lastGathered = Time.time;
@@ -71,26 +83,41 @@ namespace JourneyOnTheWall
 					plant.Gather(1);
 				}
 			}
+			else if (plant != null && plant.RewardType == ResourceType.Tool && toolsCreateTime > 0 && Time.time > lastGathered + toolsCreateTime)
+			{
+				if (plant != null)
+				{
+					lastGathered = Time.time;
+					
+					plant.Gather(1);
+				}
+			}
 		}
 
 		void Update()
 		{
-			if (isMoving )
+			if (target != null)
 			{
-				var moveTo = Quaternion.RotateTowards(tr.rotation, target, Time.deltaTime * speed).eulerAngles;
+				isMoving = true;
+				targetRotation = target.rotation;
+			}
+
+			if (isMoving)
+			{
+				var moveTo = Quaternion.RotateTowards(tr.rotation, targetRotation, Time.deltaTime * speed).eulerAngles;
 				moveTo.x = Mathf.Clamp(moveTo.x, 300, 355);
 				tr.rotation = Quaternion.Euler(moveTo);
-				if (Quaternion.Angle(tr.rotation, target) < 0.1f) isMoving = false;
+				if (Quaternion.Angle(tr.rotation, targetRotation) < 0.1f) isMoving = false;
 			
 				var shouldFaceRight = true;
 
-				if (Mathf.Abs(target.eulerAngles.y - tr.eulerAngles.y) > 180)
+				if (Mathf.Abs(targetRotation.eulerAngles.y - tr.eulerAngles.y) > 180)
 				{
-					if (target.eulerAngles.y < tr.eulerAngles.y) shouldFaceRight = false;
+					if (targetRotation.eulerAngles.y < tr.eulerAngles.y) shouldFaceRight = false;
 				}
 				else
 				{
-					if (target.eulerAngles.y > tr.eulerAngles.y) shouldFaceRight = false;
+					if (targetRotation.eulerAngles.y > tr.eulerAngles.y) shouldFaceRight = false;
 				}
 
 				if (shouldFaceRight != facingRight) Flip();

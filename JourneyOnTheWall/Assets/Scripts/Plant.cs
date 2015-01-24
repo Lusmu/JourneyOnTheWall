@@ -6,13 +6,17 @@ namespace JourneyOnTheWall
 	public class Plant : MonoBehaviour 
 	{
 		[SerializeField]
-		private int foodReward = 3;
+		private int rewardAmount = 3;
+		[SerializeField]
+		private ResourceType rewardType = ResourceType.Food;
 		[SerializeField]
 		private int gatherAmount = 1;
 		[SerializeField]
 		private float regenerateTime = 30;
 		[SerializeField]
 		private SpriteRenderer yieldRenderer;
+
+		public ResourceType RewardType { get { return rewardType; }}
 
 		private Transform tr;
 
@@ -28,15 +32,15 @@ namespace JourneyOnTheWall
 
 		public void Gather(int gatherSpeed)
 		{
-			var gather = Mathf.Min((foodReward - gathered), gatherAmount * gatherSpeed);
+			var gather = Mathf.Min((rewardAmount - gathered), gatherAmount * gatherSpeed);
 
 			if (gather > 0)
 			{
 				gathered += gather;
 
-				Clan.PlayerClan.AddResource(ResourceType.Food, gather, tr.rotation);
+				Clan.PlayerClan.AddResource(rewardType, gather, tr.rotation);
 
-				if (gathered >= foodReward)
+				if (gathered >= rewardAmount)
 				{
 					timeEmptied = Time.time;
 				}
@@ -45,16 +49,20 @@ namespace JourneyOnTheWall
 
 		void Update()
 		{
-			if (gathered >= foodReward)
+			if (gathered >= rewardAmount)
 			{
-				color.a = Mathf.MoveTowards(color.a, 0, Time.deltaTime * 0.5f);
-				yieldRenderer.color = color;
+				if (yieldRenderer != null)
+				{
+					color.a = Mathf.MoveTowards(color.a, 0, Time.deltaTime * 0.5f);
+					yieldRenderer.color = color;
+				}
+
 				if (Time.time > timeEmptied + regenerateTime)
 				{
 					gathered = 0;
 				}
 			}
-			else
+			else if (yieldRenderer != null)
 			{
 				color.a = Mathf.MoveTowards(color.a, 1, Time.deltaTime * 0.5f);
 				yieldRenderer.color = color;

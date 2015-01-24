@@ -49,7 +49,7 @@ namespace JourneyOnTheWall
 
 		void Update()
 		{
-			Damage -= Time.deltaTime * healRate;
+			Damage = Mathf.Clamp(Damage - Time.deltaTime * healRate, 0, maxHealth);
 		}
 
 		public void OnCollision(Collidable other)
@@ -62,7 +62,6 @@ namespace JourneyOnTheWall
 				lastAttack = Time.time;
 				otherFighter.TakeDamage(attackPower);
 				// TODO animate attack
-				Debug.Log(gameObject.name + " hit " + other.gameObject.name);
 			}
 		}
 
@@ -83,6 +82,11 @@ namespace JourneyOnTheWall
 			if (foodReward > 0) Clan.PlayerClan.AddResource(ResourceType.Food, foodReward, tr.rotation);
 
 			Destroy(gameObject);
+		}
+
+		public void Heal(float amount)
+		{
+			Damage = Mathf.Clamp(Damage - amount, 0, maxHealth);
 		}
 	}
 }

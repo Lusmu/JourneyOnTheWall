@@ -47,16 +47,35 @@ namespace JourneyOnTheWall
 			}
 		}
 
+		public int PeopleCount 
+		{
+			get 
+			{
+				int count = 0;
+
+				for (int i = 0; i < People.Count; i++)
+				{
+					if (People[i] == null)
+					{
+						People.RemoveAt(i);
+						i--;
+						continue;
+					}
+					else
+					{
+						count ++;
+					}
+				}
+
+				return count;
+			}
+		}
+
 		public void AddMember(GameObject member)
 		{
 			if (People == null) People = new List<GameObject>();
 
 			People.Add(member);
-		}
-
-		public void RemoveMember(GameObject member)
-		{
-			People.Remove(member);
 		}
 
 		public void AddResource(ResourceType resource, float amount, Quaternion rotation)
@@ -76,8 +95,8 @@ namespace JourneyOnTheWall
 			else if (resource == ResourceType.Tool) 
 			{
 				Tools += amount;
-				leatherParticles.GetComponent<Transform>().parent.rotation = rotation;
-				leatherParticles.Emit(Mathf.RoundToInt(amount));
+				toolParticles.GetComponent<Transform>().parent.rotation = rotation;
+				toolParticles.Emit(Mathf.RoundToInt(amount));
 			}
 
 			Debug.Log("Player now has " + Food + " food, " + Leather + " leather and " + Tools + " tools");
