@@ -32,6 +32,11 @@ namespace JourneyOnTheWall
 			SelectedCharacter.Select();
 		}
 
+		void Update()
+		{
+			if (Input.GetKeyUp(KeyCode.Escape)) Application.Quit();
+		}
+
 		public void BackgroundTouched()
 		{
 			if (Vector3.Distance(Input.mousePosition, touchBeginPosition) > 20) return; // TODO swipe
