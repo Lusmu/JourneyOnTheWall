@@ -39,7 +39,7 @@ namespace JourneyOnTheWall
 
 		public void BackgroundTouched()
 		{
-			if (Vector3.Distance(Input.mousePosition, touchBeginPosition) > 20) return; // TODO swipe
+			if (Vector3.Distance(Input.mousePosition, touchBeginPosition) > 20) return;
 
 			if (SelectedCharacter != null)
 			{

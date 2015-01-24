@@ -71,6 +71,11 @@ namespace JourneyOnTheWall
 
 							eulerDiff = eulerDiff.normalized;
 
+							if (Mathf.Abs(dynamicColliders[j].TempRotation.eulerAngles.y - dynamicColliders[k].TempRotation.eulerAngles.y) > 180)
+							{
+								eulerDiff.y *= -1;
+							}
+
 							var desiredAngle = dynamicColliders[j].TempRotation.eulerAngles + eulerDiff * maxAngle * Time.deltaTime;
 							desiredAngle.z = 0;
 							desiredAngle.x = Mathf.Clamp(desiredAngle.x, 300, 355);
@@ -88,21 +93,26 @@ namespace JourneyOnTheWall
 
 					for (int k = 0; k < staticColliders.Count; k++)
 					{
-						if (staticColliders[j] == null) 
+						if (staticColliders[k] == null) 
 						{
 							staticColliders.RemoveAt(k);
 							k--;
 							continue;
 						}
 
-						var angle = Quaternion.Angle(dynamicColliders[j].TempRotation, staticColliders[k].TempRotation);
+						var angle = Quaternion.Angle(dynamicColliders[j].TempRotation, staticColliders[k].tr.rotation);
 						var maxAngle = dynamicColliders[j].size + staticColliders[k].size;
 						
 						if (angle < maxAngle)
 						{
-							var eulerDiff = dynamicColliders[j].TempRotation.eulerAngles - staticColliders[k].TempRotation.eulerAngles;
+							var eulerDiff = dynamicColliders[j].TempRotation.eulerAngles - staticColliders[k].tr.eulerAngles;
 							
 							eulerDiff = eulerDiff.normalized;
+
+							if (Mathf.Abs(dynamicColliders[j].TempRotation.eulerAngles.y - staticColliders[k].tr.eulerAngles.y) > 180)
+							{
+								eulerDiff.y *= -1;
+							}
 							
 							var desiredAngle = dynamicColliders[j].TempRotation.eulerAngles + eulerDiff * maxAngle * Time.deltaTime;
 							desiredAngle.z = 0;
