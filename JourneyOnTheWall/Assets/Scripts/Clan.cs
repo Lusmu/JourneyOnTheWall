@@ -20,6 +20,13 @@ namespace JourneyOnTheWall
 		public float Leather { get; private set; }
 		public float Tools { get; private set; }
 	
+		[SerializeField]
+		private ParticleSystem foodParticles;
+		[SerializeField]
+		private ParticleSystem leatherParticles;
+		[SerializeField]
+		private ParticleSystem toolParticles;
+
 		private static GameObject playerClanManagerPrefab;
 		private static Clan playerClan;
 		public static Clan PlayerClan 
@@ -52,11 +59,26 @@ namespace JourneyOnTheWall
 			People.Remove(member);
 		}
 
-		public void AddResource(ResourceType resource, float amount)
+		public void AddResource(ResourceType resource, float amount, Quaternion rotation)
 		{
-			if (resource == ResourceType.Food) Food += amount;
-			else if (resource == ResourceType.Leather) Leather += amount;
-			else if (resource == ResourceType.Tool) Tools += amount;
+			if (resource == ResourceType.Food) 
+			{
+				Food += amount;
+				foodParticles.GetComponent<Transform>().parent.rotation = rotation;
+				foodParticles.Emit(Mathf.RoundToInt(amount));
+			}
+			else if (resource == ResourceType.Leather)
+			{
+				Leather += amount;
+				leatherParticles.GetComponent<Transform>().parent.rotation = rotation;
+				leatherParticles.Emit(Mathf.RoundToInt(amount));
+			}
+			else if (resource == ResourceType.Tool) 
+			{
+				Tools += amount;
+				leatherParticles.GetComponent<Transform>().parent.rotation = rotation;
+				leatherParticles.Emit(Mathf.RoundToInt(amount));
+			}
 
 			Debug.Log("Player now has " + Food + " food, " + Leather + " leather and " + Tools + " tools");
 		}

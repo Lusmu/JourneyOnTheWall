@@ -40,6 +40,13 @@ namespace JourneyOnTheWall
 		
 		private bool isDead = false;
 
+		private Transform tr;
+
+		void Awake()
+		{
+			tr = GetComponent<Transform>();
+		}
+
 		void Update()
 		{
 			Damage -= Time.deltaTime * healRate;
@@ -72,8 +79,8 @@ namespace JourneyOnTheWall
 			
 			isDead = true;
 
-			if (leatherReward > 0) Clan.PlayerClan.AddResource(ResourceType.Leather, leatherReward);
-			if (foodReward > 0) Clan.PlayerClan.AddResource(ResourceType.Food, foodReward);
+			if (leatherReward > 0) Clan.PlayerClan.AddResource(ResourceType.Leather, leatherReward, tr.rotation);
+			if (foodReward > 0) Clan.PlayerClan.AddResource(ResourceType.Food, foodReward, tr.rotation);
 
 			Destroy(gameObject);
 		}
