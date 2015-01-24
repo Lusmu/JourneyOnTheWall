@@ -38,12 +38,6 @@ namespace JourneyOnTheWall
 			else dynamicColliders.Add(col);
 		}
 
-		public void UnregisterCollider(Collidable col)
-		{
-			if (col.isStatic) staticColliders.Remove(col);
-			else dynamicColliders.Remove(col);
-		}
-
 		void LateUpdate()
 		{
 			for (int i = 0; i < dynamicColliders.Count; i++)
@@ -55,6 +49,13 @@ namespace JourneyOnTheWall
 			{
 				for (int j = 0; j < dynamicColliders.Count; j++)
 				{
+					if (dynamicColliders[j] == null) 
+					{
+						dynamicColliders.RemoveAt(j);
+						j--;
+						continue;
+					}
+
 					for (int k = 0; k < dynamicColliders.Count; k++)
 					{
 						if (j == k) continue;

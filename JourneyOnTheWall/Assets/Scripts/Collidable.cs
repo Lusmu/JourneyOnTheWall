@@ -22,10 +22,5 @@ namespace JourneyOnTheWall
 		{
 			CollisionManager.Instance.RegisterCollider(this);
 		}
-
-		void OnDisable()
-		{
-			CollisionManager.Instance.UnregisterCollider(this);
-		}
 	}
 }

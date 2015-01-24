@@ -19,9 +19,14 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private Animator anim;
 
+		private Quaternion lastPosition;
+
+		private float timeIdle = 0;
+
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
+			anim.SetBool("Moving", false);
 		}
 
 		public void Move(Quaternion target)
@@ -41,14 +46,13 @@ namespace JourneyOnTheWall
 
 		void Update()
 		{
-			if (isMoving)
+			if (isMoving )
 			{
 				var moveTo = Quaternion.RotateTowards(tr.rotation, target, Time.deltaTime * speed).eulerAngles;
 				moveTo.x = Mathf.Clamp(moveTo.x, 300, 355);
 				tr.rotation = Quaternion.Euler(moveTo);
-
 				if (Quaternion.Angle(tr.rotation, target) < 0.1f) isMoving = false;
-
+			
 				var shouldFaceRight = true;
 
 				if (Mathf.Abs(target.eulerAngles.y - tr.eulerAngles.y) > 180)
@@ -61,9 +65,24 @@ namespace JourneyOnTheWall
 				}
 
 				if (shouldFaceRight != facingRight) Flip();
+
+				anim.SetBool("Moving", true);
+
+				timeIdle = 0;
+			}
+			else if (Quaternion.Angle(lastPosition, tr.rotation) > 0.05f)
+			{				
+				anim.SetBool("Moving", true);
+
+				timeIdle = 0;
+			}
+			else
+			{
+				timeIdle += Time.deltaTime;
+				if (timeIdle > 0.5f) anim.SetBool("Moving", false);
 			}
 
-			anim.SetBool("Moving", isMoving);
+			lastPosition = tr.rotation;
 		}
 	}
 }
