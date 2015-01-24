@@ -35,7 +35,10 @@ namespace JourneyOnTheWall
 			{
 				var diff = Input.mousePosition - lastMousePosition;
 
+				var newRotation = tr.eulerAngles + diff.x * Vector3.up * speed + diff.y * Vector3.right * speed;
+				newRotation.y = Mathf.Clamp(newRotation.x, 300, 330);
 
+				tr.eulerAngles = newRotation;
 			}
 
 			lastMousePosition = Input.mousePosition;
