@@ -48,6 +48,7 @@ namespace JourneyOnTheWall
 			if (gathered >= foodReward)
 			{
 				color.a = Mathf.MoveTowards(color.a, 0, Time.deltaTime * 0.5f);
+				yieldRenderer.color = color;
 				if (Time.time > timeEmptied + regenerateTime)
 				{
 					gathered = 0;
@@ -56,6 +57,7 @@ namespace JourneyOnTheWall
 			else
 			{
 				color.a = Mathf.MoveTowards(color.a, 1, Time.deltaTime * 0.5f);
+				yieldRenderer.color = color;
 			}
 		}
 	}
