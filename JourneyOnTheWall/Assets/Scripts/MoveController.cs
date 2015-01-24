@@ -12,6 +12,8 @@ namespace JourneyOnTheWall
 
 		private Transform tr;
 
+		private bool isMoving = false;
+
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
@@ -20,12 +22,19 @@ namespace JourneyOnTheWall
 		public void Move(Quaternion target)
 		{
 			this.target = target;
+			isMoving = true;
 		}
 
 		void Update()
 		{
-			tr.rotation = Quaternion.RotateTowards(tr.rotation, target, Time.deltaTime * speed);
+			if (isMoving)
+			{
+				var moveTo = Quaternion.RotateTowards(tr.rotation, target, Time.deltaTime * speed).eulerAngles;
+				moveTo.x = Mathf.Clamp(moveTo.x, 300, 355);
+				tr.rotation = Quaternion.Euler(moveTo);
 
+				if (Quaternion.Angle(tr.rotation, target) < 0.1f) isMoving = false;
+			}
 
 			// TODO flip when changing direction
 		}
