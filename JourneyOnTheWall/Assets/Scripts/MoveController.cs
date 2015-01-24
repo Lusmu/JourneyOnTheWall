@@ -33,6 +33,9 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private List<CreatureFaction> hostileToFactions;
 
+		[SerializeField]
+		private float healRate = 0;
+
 		private bool facingRight = true;
 
 		private Quaternion target;
@@ -112,6 +115,8 @@ namespace JourneyOnTheWall
 				timeIdle += Time.deltaTime;
 				if (timeIdle > 0.5f) anim.SetBool("Moving", false);
 			}
+
+			Damage -= Time.deltaTime * healRate;
 
 			lastPosition = tr.rotation;
 		}

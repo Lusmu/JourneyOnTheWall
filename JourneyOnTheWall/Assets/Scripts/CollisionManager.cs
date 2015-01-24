@@ -44,6 +44,13 @@ namespace JourneyOnTheWall
 
 			for (int i = 0; i < dynamicColliders.Count; i++)
 			{
+				if (dynamicColliders[i] == null) 
+				{
+					dynamicColliders.RemoveAt(i);
+					i--;
+					continue;
+				}
+
 				dynamicColliders[i].TempRotation = dynamicColliders[i].tr.rotation;
 			}
 
@@ -51,13 +58,6 @@ namespace JourneyOnTheWall
 			{
 				for (int j = 0; j < dynamicColliders.Count; j++)
 				{
-					if (dynamicColliders[j] == null) 
-					{
-						dynamicColliders.RemoveAt(j);
-						j--;
-						continue;
-					}
-
 					for (int k = 0; k < dynamicColliders.Count; k++)
 					{
 						if (j == k) continue;
@@ -88,6 +88,13 @@ namespace JourneyOnTheWall
 
 					for (int k = 0; k < staticColliders.Count; k++)
 					{
+						if (staticColliders[j] == null) 
+						{
+							staticColliders.RemoveAt(k);
+							k--;
+							continue;
+						}
+
 						var angle = Quaternion.Angle(dynamicColliders[j].TempRotation, staticColliders[k].TempRotation);
 						var maxAngle = dynamicColliders[j].size + staticColliders[k].size;
 						
