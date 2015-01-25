@@ -114,7 +114,7 @@ namespace JourneyOnTheWall
 								eulerDiff.y *= -1;
 							}
 							
-							var desiredAngle = dynamicColliders[j].TempRotation.eulerAngles + eulerDiff * maxAngle * Time.deltaTime * 0.2f;
+							var desiredAngle = dynamicColliders[j].TempRotation.eulerAngles + eulerDiff * Time.deltaTime;
 							desiredAngle.z = 0;
 							if (dynamicColliders[j].collidesWithBorders) desiredAngle.x = Mathf.Clamp(desiredAngle.x, 300, 355);
 							
@@ -179,6 +179,39 @@ namespace JourneyOnTheWall
 			{
 				return base.GetHashCode ();
 			}
+		}
+
+		public Collidable GetCollision(Quaternion point, float angle = 0.1f)
+		{
+			for (int i = 0; i < staticColliders.Count; i++)
+			{
+				if (staticColliders[i] == null)
+				{
+					staticColliders.RemoveAt(i);
+					i--;
+					continue;
+				}
+				else
+				{
+					if (Quaternion.Angle(point, staticColliders[i].tr.rotation) < angle) return staticColliders[i];
+				}
+			}
+
+			for (int i = 0; i < dynamicColliders.Count; i++)
+			{
+				if (dynamicColliders[i] == null)
+				{
+					dynamicColliders.RemoveAt(i);
+					i--;
+					continue;
+				}
+				else
+				{
+					if (Quaternion.Angle(point, staticColliders[i].tr.rotation) < angle) return dynamicColliders[i];
+				}
+			}
+
+			return null;
 		}
 	}
 }

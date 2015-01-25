@@ -122,7 +122,7 @@ namespace JourneyOnTheWall
 				tr.rotation = Quaternion.Euler(moveTo);
 
 				var dist = 0.1f;
-				if (col != null) dist = col.size;
+				if (col != null) dist = col.size * 0.5f;
 				if (Quaternion.Angle(tr.rotation, targetRotation) < dist) isMoving = false;
 			
 				var shouldFaceRight = true;

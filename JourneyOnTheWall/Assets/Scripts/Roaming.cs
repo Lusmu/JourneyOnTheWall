@@ -72,13 +72,28 @@ namespace JourneyOnTheWall
 
 		Quaternion GetRandomTarget()
 		{
-			var current = GetComponent<Transform>().eulerAngles;
+			Quaternion retVal = Quaternion.identity;
 
-			var newTarget = current + Vector3.up * Random.Range(-roamingRange, roamingRange)
-				+ Vector3.right * Random.Range(-roamingRange, roamingRange);
-			newTarget.x = Mathf.Clamp(newTarget.x, 300, 345);
+			float attemps = 100;
 
-			return Quaternion.Euler(newTarget);
+			while (true)
+			{
+				var current = GetComponent<Transform>().eulerAngles;
+				
+				var newTarget = current + Vector3.up * Random.Range(-roamingRange, roamingRange)
+					+ Vector3.right * Random.Range(-roamingRange, roamingRange);
+				newTarget.x = Mathf.Clamp(newTarget.x, 300, 345);
+
+				retVal = Quaternion.Euler(newTarget);
+
+				if (CollisionManager.Instance.GetCollision(retVal, 2) == null) break;
+
+				attemps --;
+
+				if (attemps < 0) break;
+			}
+
+			return retVal;
 		}
 	}
 }
