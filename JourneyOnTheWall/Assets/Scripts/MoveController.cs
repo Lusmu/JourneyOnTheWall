@@ -47,10 +47,13 @@ namespace JourneyOnTheWall
 
 		private float timeIdle = 0;
 
+		private Collidable col;
+
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
 			if (anim != null) anim.SetBool("Moving", false);
+			col = GetComponent<Collidable>();
 		}
 
 		public void Move(Quaternion target)
@@ -117,7 +120,10 @@ namespace JourneyOnTheWall
 				var moveTo = Quaternion.RotateTowards(tr.rotation, targetRotation, Time.deltaTime * speed).eulerAngles;
 				if (collideOnBorders) moveTo.x = Mathf.Clamp(moveTo.x, 300, 355);
 				tr.rotation = Quaternion.Euler(moveTo);
-				if (Quaternion.Angle(tr.rotation, targetRotation) < 0.1f) isMoving = false;
+
+				var dist = 0.1f;
+				if (col != null) dist = col.size;
+				if (Quaternion.Angle(tr.rotation, targetRotation) < dist) isMoving = false;
 			
 				var shouldFaceRight = true;
 
