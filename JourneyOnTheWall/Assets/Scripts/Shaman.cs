@@ -9,6 +9,8 @@ namespace JourneyOnTheWall
 		private float healingPower = 10;
 		[SerializeField]
 		private float healingInterval = 30;
+		[SerializeField]
+		private Animator anim;
 
 		private float lastHealed;
 
@@ -25,6 +27,7 @@ namespace JourneyOnTheWall
 					lastHealed = Time.time;
 					combatActor.Heal(healingPower);
 					Debug.Log("Shaman healed", other.gameObject);
+					anim.SetTrigger("Magic");
 				}
 			}
 		}
