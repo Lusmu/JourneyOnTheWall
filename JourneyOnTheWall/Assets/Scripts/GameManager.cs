@@ -13,6 +13,10 @@ namespace JourneyOnTheWall
 
 		private Vector3 touchBeginPosition;
 
+		public int foodLimit = 50;
+		public int leatherLimit = 30;
+		public int toolsLimit = 20;
+
 		void Awake()
 		{
 			// Fixed screen orientation for mobile platforms

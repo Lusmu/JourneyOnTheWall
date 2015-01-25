@@ -117,9 +117,11 @@ namespace JourneyOnTheWall
 			
 			isDead = true;
 
-			if (leatherReward > 0) Clan.PlayerClan.AddResource(ResourceType.Leather, leatherReward, tr.rotation);
-			if (foodReward > 0) Clan.PlayerClan.AddResource(ResourceType.Food, foodReward, tr.rotation);
-
+			if (rewarded)
+			{
+				if (leatherReward > 0) Clan.PlayerClan.AddResource(ResourceType.Leather, leatherReward, tr.rotation);
+				if (foodReward > 0) Clan.PlayerClan.AddResource(ResourceType.Food, foodReward, tr.rotation);
+			}
 
 			if (deathSounds.Length > 0) 
 				audio.PlayOneShot (deathSounds[Random.Range(0,deathSounds.Length)], 0.6F);
@@ -132,7 +134,6 @@ namespace JourneyOnTheWall
 				var go = Instantiate(deathEffectPrefab) as GameObject;
 				go.GetComponent<Transform>().rotation = tr.rotation;
 			}
-
 
 			Destroy(gameObject);
 		}
