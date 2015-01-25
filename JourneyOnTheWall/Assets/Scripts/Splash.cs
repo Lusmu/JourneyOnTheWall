@@ -26,6 +26,8 @@ public class Splash : MonoBehaviour {
 			yield return null;
 		}
 
+		yield return new WaitForSeconds(5);
+
 		Application.LoadLevel(1);
 	}
 }

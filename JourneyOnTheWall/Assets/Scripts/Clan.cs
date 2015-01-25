@@ -90,6 +90,8 @@ namespace JourneyOnTheWall
 
 		void Update()
 		{
+			if (GameManager.Instance.IsGameOver) return;
+
 			foodConsumedPercentage += PeopleCount * foodConsumption * Time.deltaTime;
 			toolConsumedPercentage += PeopleCount * toolConsumption * Time.deltaTime;
 			leatherConsumedPercentage += PeopleCount * leatherConsumption * Time.deltaTime;

@@ -123,7 +123,7 @@ namespace JourneyOnTheWall
 			
 			winEffect.SetActive(true);
 			
-			yield return new WaitForSeconds(6);
+			yield return new WaitForSeconds(12);
 			
 			Application.LoadLevel("Win");
 		}

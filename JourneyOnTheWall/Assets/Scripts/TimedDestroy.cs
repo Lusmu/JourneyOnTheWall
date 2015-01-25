@@ -9,7 +9,6 @@ public class TimedDestroy : MonoBehaviour {
 
 	void Start()
 	{
-		Debug.Log("created");
 		timer = time;
 	}
 
