@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1cb17ef330f19402fa43134912659f3a
+guid: c65bcd55c38b44352bc45c9b9911131c
 TextureImporter:
   fileIDToRecycleName: {}
   serializedVersion: 2
@@ -15,17 +15,17 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 1
     externalNormalMap: 1
-    heightScale: .0140000004
-    normalMapFilter: 1
+    heightScale: .25
+    normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
-  textureFormat: -1
+  textureFormat: -3
   maxTextureSize: 1024
   textureSettings:
-    filterMode: -1
-    aniso: -1
+    filterMode: 1
+    aniso: 1
     mipBias: -1
     wrapMode: 0
   nPOTScale: 1

@@ -8,12 +8,12 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private GameObject animalPrefab1;
 		[SerializeField]
-		private float animalChange1 = 0.7f;
+		private float animalChance1 = 0.7f;
 
 		[SerializeField]
 		private GameObject animalPrefab2;
 		[SerializeField]
-		private float animalChange2 = 0.3f;
+		private float animalChance2 = 0.3f;
 		[SerializeField]
 		private Transform spawnRoot;
 		[SerializeField]
@@ -41,7 +41,7 @@ namespace JourneyOnTheWall
 		{
 			GameObject prefab = null;
 
-			if (Random.value > animalChange1) prefab = animalPrefab1;
+			if (Random.value > animalChance1) prefab = animalPrefab1;
 			else prefab = animalPrefab2;
 
 			GameObject go = Instantiate(prefab) as GameObject;

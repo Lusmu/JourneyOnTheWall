@@ -48,6 +48,11 @@ namespace JourneyOnTheWall
 
 		private Transform tr;
 
+		private Color col;
+
+		[SerializeField]
+		private SpriteRenderer mainRenderer;
+
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
@@ -56,6 +61,16 @@ namespace JourneyOnTheWall
 		void Update()
 		{
 			Damage = Mathf.Clamp(Damage - Time.deltaTime * healRate, 0, maxHealth);
+
+			if (mainRenderer != null)
+			{
+				col = mainRenderer.color;
+				
+				if (Damage > 0) col.a = 0.5f;
+				else col.a = 0.9f;
+				
+				mainRenderer.color = col;
+			}
 		}
 
 		public void OnCollision(Collidable other)
@@ -67,7 +82,7 @@ namespace JourneyOnTheWall
 			{
 				lastAttack = Time.time;
 				otherFighter.TakeDamage(attackPower);
-				// TODO animate attack
+				anim.SetTrigger("Attack");
 			}
 		}
 

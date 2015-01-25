@@ -16,6 +16,8 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private SpriteRenderer yieldRenderer;
 
+		public bool HasYield { get { return gathered < rewardAmount; }}
+
 		public ResourceType RewardType { get { return rewardType; }}
 
 		private Transform tr;

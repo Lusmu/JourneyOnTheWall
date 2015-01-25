@@ -26,7 +26,7 @@ namespace JourneyOnTheWall
 		void Update () {
 			var newPos = origPosition;
 
-			newPos.y += Mathf.Sin(Time.time * 0.25f) * 2f;
+			newPos.y += Mathf.Sin(Time.time * 0.3f) * 5f;
 
 			tr.localPosition = newPos;
 

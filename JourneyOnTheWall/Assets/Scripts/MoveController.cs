@@ -82,7 +82,7 @@ namespace JourneyOnTheWall
 			var plant = other.GetComponent<Plant>();
 			if (plant != null && plant.RewardType == ResourceType.Food && foodGatherTime > 0 && Time.time > lastGathered + foodGatherTime)
 			{
-				if (plant != null)
+				if (plant != null && plant.HasYield)
 				{
 					lastGathered = Time.time;
 
@@ -91,7 +91,7 @@ namespace JourneyOnTheWall
 			}
 			else if (plant != null && plant.RewardType == ResourceType.Tool && toolsCreateTime > 0 && Time.time > lastGathered + toolsCreateTime)
 			{
-				if (plant != null)
+				if (plant != null && plant.HasYield)
 				{
 					lastGathered = Time.time;
 					
