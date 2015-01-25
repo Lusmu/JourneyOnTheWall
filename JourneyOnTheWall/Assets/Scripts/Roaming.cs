@@ -36,6 +36,7 @@ namespace JourneyOnTheWall
 				if (goingAwayChance > 0 && Random.value < goingAwayChance)
 				{
 					mover.collideOnBorders = false;
+					GetComponent<Collidable>().collidesWithBorders = false;
 
 					var targetEuler = GetComponent<Transform>().eulerAngles;
 					targetEuler.y += Random.Range(-roamingRange, roamingRange);

@@ -78,10 +78,10 @@ namespace JourneyOnTheWall
 
 							var desiredAngle = dynamicColliders[j].TempRotation.eulerAngles + eulerDiff * maxAngle * Time.deltaTime;
 							desiredAngle.z = 0;
-							desiredAngle.x = Mathf.Clamp(desiredAngle.x, 300, 355);
+							if (dynamicColliders[j].collidesWithBorders) desiredAngle.x = Mathf.Clamp(desiredAngle.x, 300, 355);
 							var desiredAngle2 = dynamicColliders[k].TempRotation.eulerAngles - eulerDiff * maxAngle * Time.deltaTime;
 							desiredAngle2.z = 0;
-							desiredAngle2.x = Mathf.Clamp(desiredAngle2.x, 300, 355);
+							if (dynamicColliders[k].collidesWithBorders) desiredAngle2.x = Mathf.Clamp(desiredAngle2.x, 300, 355);
 
 							dynamicColliders[j].TempRotation = Quaternion.Euler(desiredAngle);
 							dynamicColliders[k].TempRotation = Quaternion.Euler(desiredAngle2);
@@ -116,7 +116,7 @@ namespace JourneyOnTheWall
 							
 							var desiredAngle = dynamicColliders[j].TempRotation.eulerAngles + eulerDiff * maxAngle * Time.deltaTime * 0.1f;
 							desiredAngle.z = 0;
-							desiredAngle.x = Mathf.Clamp(desiredAngle.x, 300, 355);
+							if (dynamicColliders[j].collidesWithBorders) desiredAngle.x = Mathf.Clamp(desiredAngle.x, 300, 355);
 							
 							dynamicColliders[j].TempRotation = Quaternion.Euler(desiredAngle);
 

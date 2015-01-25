@@ -29,8 +29,6 @@ namespace JourneyOnTheWall
 
 		public void Select()
 		{
-			Debug.Log ("lenth:"+selectAudioClips.Length);
-
 			spriteRenderer.color = selectedColor;
 			//selectAudioClip.Play ();
 			//clipSource.Play ();
