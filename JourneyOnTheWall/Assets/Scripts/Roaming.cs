@@ -72,11 +72,11 @@ namespace JourneyOnTheWall
 
 		Quaternion GetRandomTarget()
 		{
-			Quaternion retVal = Quaternion.identity;
+			Quaternion retVal = GetComponent<Transform>().rotation;
 
 			float attemps = 100;
 
-			while (true)
+			while (attemps > 0)
 			{
 				var current = GetComponent<Transform>().eulerAngles;
 				
@@ -86,7 +86,11 @@ namespace JourneyOnTheWall
 
 				retVal = Quaternion.Euler(newTarget);
 
-				if (CollisionManager.Instance.GetCollision(retVal, 2) == null) break;
+				if (CollisionManager.Instance.GetCollision(retVal, 2) == null)
+				{
+					Debug.Log("Found random spot at " + retVal.eulerAngles);
+					break;
+				}
 
 				attemps --;
 

@@ -61,7 +61,8 @@ namespace JourneyOnTheWall
 
 			mover.Move(Quaternion.Euler(new Vector3(299, targetY, 0)));
 
-			while (tr != null && Mathf.Abs(tr.eulerAngles.x - 299) > 0.5f) yield return null;
+			var startTime = Time.time;
+			while (tr != null && Mathf.Abs(tr.eulerAngles.x - 299) > 0.5f && Time.time < startTime + 2) yield return null;
 
 			if (go != null)
 			{
