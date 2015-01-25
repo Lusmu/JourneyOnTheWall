@@ -82,7 +82,7 @@ namespace JourneyOnTheWall
 			{
 				lastAttack = Time.time;
 				otherFighter.TakeDamage(attackPower);
-				// TODO animate attack
+				anim.SetTrigger("Attack");
 			}
 		}
 
