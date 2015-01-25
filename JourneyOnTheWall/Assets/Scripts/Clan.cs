@@ -55,29 +55,7 @@ namespace JourneyOnTheWall
 			}
 		}
 
-		public int PeopleCount 
-		{
-			get 
-			{
-				int count = 0;
-
-				for (int i = 0; i < People.Count; i++)
-				{
-					if (People[i] == null)
-					{
-						People.RemoveAt(i);
-						i--;
-						continue;
-					}
-					else
-					{
-						count ++;
-					}
-				}
-
-				return count;
-			}
-		}
+		public int PeopleCount { get; private set; }
 
 		public void AddMember(GameObject member)
 		{
@@ -133,6 +111,25 @@ namespace JourneyOnTheWall
 				Leather --;
 				if (Leather < 0) Leather = 0;
 				leatherConsumedPercentage = 0;
+			}
+		}
+
+		void LateUpdate()
+		{
+			int count = 0;
+			
+			for (int i = 0; i < People.Count; i++)
+			{
+				if (People[i] == null)
+				{
+					People.RemoveAt(i);
+					i--;
+					continue;
+				}
+				else
+				{
+					count ++;
+				}
 			}
 		}
 	}

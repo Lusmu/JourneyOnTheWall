@@ -17,6 +17,13 @@ namespace JourneyOnTheWall
 		public int leatherLimit = 30;
 		public int toolsLimit = 20;
 
+		[SerializeField]
+		private GameObject loseEffect;
+		[SerializeField]
+		private GameObject winEffect;
+
+		public bool IsGameOver { get; private set; }
+
 		void Awake()
 		{
 			// Fixed screen orientation for mobile platforms
@@ -42,6 +49,14 @@ namespace JourneyOnTheWall
 		void Update()
 		{
 			if (Input.GetKeyUp(KeyCode.Escape)) Application.Quit();
+
+			if (!IsGameOver && Time.timeSinceLevelLoad > 10)
+			{
+				if (Clan.PlayerClan.PeopleCount <= 1) LoseGame();
+				else if (Clan.PlayerClan.Food >= foodLimit &&
+				         Clan.PlayerClan.Tools >= toolsLimit &&
+				         Clan.PlayerClan.Leather >= leatherLimit) WinGame();
+			}
 		}
 
 		public void BackgroundTouched()
@@ -75,6 +90,42 @@ namespace JourneyOnTheWall
 				var mover = SelectedCharacter.GetComponent<MoveController>();
 				if (mover != null) mover.Move(target.GetComponent<Transform>());
 			}
+		}
+
+		public void LoseGame()
+		{
+			StartCoroutine(LoseGame_Coroutine());
+		}
+
+		public void WinGame()
+		{
+			StartCoroutine(WinGame_Coroutine());
+		}
+
+		IEnumerator LoseGame_Coroutine()
+		{
+			IsGameOver = true;
+
+			yield return null;
+
+			loseEffect.SetActive(true);
+
+			yield return new WaitForSeconds(10);
+
+			Application.LoadLevel("Lose");
+		}
+
+		IEnumerator WinGame_Coroutine()
+		{
+			IsGameOver = true;
+			
+			yield return null;
+			
+			winEffect.SetActive(true);
+			
+			yield return new WaitForSeconds(6);
+			
+			Application.LoadLevel("Win");
 		}
 	}
 }

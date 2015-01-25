@@ -109,6 +109,8 @@ namespace JourneyOnTheWall
 
 		void Update()
 		{
+			if (GameManager.Instance.IsGameOver) return;
+
 			if (target != null)
 			{
 				isMoving = true;
