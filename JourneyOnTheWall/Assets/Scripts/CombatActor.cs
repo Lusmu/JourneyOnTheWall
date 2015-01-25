@@ -95,23 +95,23 @@ namespace JourneyOnTheWall
 			if (attackPower > 0 && hostileToFactions.Contains(otherFighter.Faction) && Time.time > lastAttack + attackDelay)
 			{
 				lastAttack = Time.time;
-				otherFighter.TakeDamage(attackPower);
+				otherFighter.TakeDamage(attackPower, this);
 				anim.SetTrigger("Attack");
 				if (attackSounds.Length > 0) 
 					audio.PlayOneShot (attackSounds[Random.Range(0,attackSounds.Length)], 0.6F);
 			}
 		}
 
-		public void TakeDamage(float amount)
+		public void TakeDamage(float amount, CombatActor attacker)
 		{
 			Damage += amount;
 
 			if (damagedParticles != null) damagedParticles.Emit(Mathf.RoundToInt(amount * 10));
 
-			if (Damage > maxHealth) Die ();
+			if (Damage > maxHealth) Die (attacker.faction == CreatureFaction.PlayerClan);
 		}
 		
-		public void Die()
+		public void Die(bool rewarded = false)
 		{
 			if (isDead) return;
 			
@@ -124,8 +124,11 @@ namespace JourneyOnTheWall
 			if (deathSounds.Length > 0) 
 				audio.PlayOneShot (deathSounds[Random.Range(0,deathSounds.Length)], 0.6F);
 
+			Debug.Log(gameObject.name + " died");
+
 			if (deathEffectPrefab != null)
 			{
+				Debug.Log("Instantiating death effect");
 				var go = Instantiate(deathEffectPrefab) as GameObject;
 				go.GetComponent<Transform>().rotation = tr.rotation;
 			}
