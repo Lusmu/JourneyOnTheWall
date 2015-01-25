@@ -27,11 +27,19 @@ namespace JourneyOnTheWall
 
 			if (GameManager.Instance.SelectedCharacter != null)
 			{
-				if (Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.001f || Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.001f)
+				if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
 				{
-					float x = - Input.GetAxisRaw("Vertical") * Time.deltaTime * 30f;
-					float y = Input.GetAxisRaw("Horizontal") * Time.deltaTime * 30f;
-					
+					//float x = - Input.GetAxisRaw("Vertical") * Time.deltaTime * 30f;
+					//float y = Input.GetAxisRaw("Horizontal") * Time.deltaTime * 30f;
+
+					float x = 0;
+					float y = 0;
+
+					if (Input.GetKey(KeyCode.A)) y = - Time.deltaTime * 30;
+					if (Input.GetKey(KeyCode.D)) y = Time.deltaTime * 30;
+					if (Input.GetKey(KeyCode.W)) x = -Time.deltaTime * 30;
+					if (Input.GetKey(KeyCode.S)) x = Time.deltaTime * 30;
+
 					Vector3 targetPos = GameManager.Instance.SelectedCharacter.GetComponent<MoveController>().TargetRotation.eulerAngles;
 					targetPos.x += x;
 					targetPos.y += y;
