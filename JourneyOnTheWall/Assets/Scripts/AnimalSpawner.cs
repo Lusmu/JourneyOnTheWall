@@ -47,6 +47,7 @@ namespace JourneyOnTheWall
 			GameObject go = Instantiate(prefab) as GameObject;
 			var tr = go.GetComponent<Transform>();
 			tr.SetParent(spawnRoot);
+			tr.SetAsFirstSibling();
 			tr.position = Vector3.zero;
 			var targetY = Random.Range(0, 360);
 			tr.eulerAngles = new Vector3(290, targetY, 0);
