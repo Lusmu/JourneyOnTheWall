@@ -2,10 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+
 namespace JourneyOnTheWall
 {
+	[RequireComponent(typeof(AudioSource))]
 	public class CombatActor : MonoBehaviour
 	{
+		[SerializeField]
+		private AudioClip[] attackSounds;
+
+		[SerializeField]
+		private AudioClip[] deathSounds;
+
 		[SerializeField]
 		private float attackDelay = 1;
 		
@@ -59,6 +68,8 @@ namespace JourneyOnTheWall
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
+			gameObject.AddComponent<AudioSource> ();
+
 		}
 
 		void Update()
@@ -86,6 +97,8 @@ namespace JourneyOnTheWall
 				lastAttack = Time.time;
 				otherFighter.TakeDamage(attackPower);
 				anim.SetTrigger("Attack");
+				if (attackSounds.Length > 0) 
+					audio.PlayOneShot (attackSounds[Random.Range(0,attackSounds.Length)], 0.6F);
 			}
 		}
 
@@ -107,11 +120,16 @@ namespace JourneyOnTheWall
 			if (leatherReward > 0) Clan.PlayerClan.AddResource(ResourceType.Leather, leatherReward, tr.rotation);
 			if (foodReward > 0) Clan.PlayerClan.AddResource(ResourceType.Food, foodReward, tr.rotation);
 
+
+			if (deathSounds.Length > 0) 
+				audio.PlayOneShot (deathSounds[Random.Range(0,deathSounds.Length)], 0.6F);
+
 			if (deathEffectPrefab != null)
 			{
 				var go = Instantiate(deathEffectPrefab) as GameObject;
 				go.GetComponent<Transform>().rotation = tr.rotation;
 			}
+
 
 			Destroy(gameObject);
 		}
