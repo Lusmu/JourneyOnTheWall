@@ -77,15 +77,27 @@ namespace JourneyOnTheWall
 		{
 			var newRotation = tr.eulerAngles;
 
+			if (!isDragging && Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0))
+			{
+				BeginTouch();
+			}
+
 			if (isDragging)
 			{
-				var diff = Input.mousePosition - lastMousePosition;
-
-				newRotation = tr.eulerAngles - diff.x * Vector3.up * speed + diff.y * Vector3.right * speed;
-
-				lastTouches.Add(Input.mousePosition - lastMousePosition);
-
-				if (lastTouches.Count > 15) lastTouches.RemoveAt(0);
+				if (Input.GetMouseButtonUp(0))
+				{
+					EndTouch();
+				}
+				else
+				{
+					var diff = Input.mousePosition - lastMousePosition;
+					
+					newRotation = tr.eulerAngles - diff.x * Vector3.up * speed + diff.y * Vector3.right * speed;
+					
+					lastTouches.Add(Input.mousePosition - lastMousePosition);
+					
+					if (lastTouches.Count > 15) lastTouches.RemoveAt(0);
+				}
 			}
 			else if (momentum > 0)
 			{
