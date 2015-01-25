@@ -123,9 +123,6 @@ namespace JourneyOnTheWall
 				if (foodReward > 0) Clan.PlayerClan.AddResource(ResourceType.Food, foodReward, tr.rotation);
 			}
 
-			if (deathSounds.Length > 0) 
-				audio.PlayOneShot (deathSounds[Random.Range(0,deathSounds.Length)], 0.6F);
-
 			Debug.Log(gameObject.name + " died");
 
 			if (deathEffectPrefab != null)
@@ -133,7 +130,11 @@ namespace JourneyOnTheWall
 				Debug.Log("Instantiating death effect");
 				var go = Instantiate(deathEffectPrefab) as GameObject;
 				go.GetComponent<Transform>().rotation = tr.rotation;
+
 			}
+			
+			if (deathSounds.Length > 0) 
+				audio.PlayOneShot (deathSounds[Random.Range(0,deathSounds.Length)], 0.6F);
 
 			Destroy(gameObject);
 		}
