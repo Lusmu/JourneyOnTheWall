@@ -5,15 +5,20 @@ public class TimedDestroy : MonoBehaviour {
 	[SerializeField]
 	private float time = 5;
 	
-	private float createTime;
+	private float timer;
 
 	void Start()
 	{
-		createTime = Time.time;
+		Debug.Log("created");
+		timer = time;
 	}
 
 	void Update ()
 	{
-		if (Time.time > createTime + time) Destroy(gameObject);
+		timer -= Time.deltaTime;
+		if (timer < 0)
+		{
+			Destroy(gameObject);
+		}
 	}
 }
