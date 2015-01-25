@@ -16,6 +16,8 @@ namespace JourneyOnTheWall
 		private SpriteRenderer spriteRenderer;
 		[SerializeField]
 		private Color selectedColor;
+		[SerializeField]
+		private GameObject selectedIndicator;
 
 		private Color defaultColor;
 
@@ -24,10 +26,12 @@ namespace JourneyOnTheWall
 			gameObject.AddComponent<AudioSource> ();
 			defaultColor = spriteRenderer.color;
 			button.onClick.AddListener(() => { GameManager.Instance.SelectCharacter(this); });
+			if (selectedIndicator != null) selectedIndicator.SetActive(false);
 		}
 
 		public void Select()
 		{
+			if (selectedIndicator != null) selectedIndicator.SetActive(true);
 			spriteRenderer.color = selectedColor;
 			//selectAudioClip.Play ();
 			//clipSource.Play ();
@@ -37,6 +41,7 @@ namespace JourneyOnTheWall
 
 		public void Deselect()
 		{
+			if (selectedIndicator != null) selectedIndicator.SetActive(false);
 			spriteRenderer.color = defaultColor;
 		}
 	}
