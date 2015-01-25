@@ -17,6 +17,9 @@ namespace JourneyOnTheWall
 		public bool collideOnBorders = true;
 
 		[SerializeField]
+		private bool defaultIsFacingRight = false;
+
+		[SerializeField]
 		private float speed = 10;
 
 		private bool facingRight = true;
@@ -122,6 +125,8 @@ namespace JourneyOnTheWall
 				{
 					if (targetRotation.eulerAngles.y > tr.eulerAngles.y) shouldFaceRight = false;
 				}
+
+				if (defaultIsFacingRight) shouldFaceRight = !shouldFaceRight;
 
 				if (shouldFaceRight != facingRight) Flip();
 
