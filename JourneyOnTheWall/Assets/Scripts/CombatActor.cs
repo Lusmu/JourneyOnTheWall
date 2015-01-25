@@ -40,6 +40,9 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private ParticleSystem healParticles;
 
+		[SerializeField]
+		private GameObject deathEffectPrefab;
+
 		public float Damage { get; private set; }
 		
 		private float lastAttack;
@@ -103,6 +106,13 @@ namespace JourneyOnTheWall
 
 			if (leatherReward > 0) Clan.PlayerClan.AddResource(ResourceType.Leather, leatherReward, tr.rotation);
 			if (foodReward > 0) Clan.PlayerClan.AddResource(ResourceType.Food, foodReward, tr.rotation);
+
+			if (deathEffectPrefab != null)
+			{
+				var go = Instantiate(deathEffectPrefab) as GameObject;
+				go.GetComponent<Transform>().rotation = tr.rotation;
+				Destroy(go, 5);
+			}
 
 			Destroy(gameObject);
 		}
