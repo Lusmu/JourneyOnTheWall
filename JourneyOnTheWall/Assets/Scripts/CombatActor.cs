@@ -111,7 +111,6 @@ namespace JourneyOnTheWall
 			{
 				var go = Instantiate(deathEffectPrefab) as GameObject;
 				go.GetComponent<Transform>().rotation = tr.rotation;
-				Destroy(go, 5);
 			}
 
 			Destroy(gameObject);
