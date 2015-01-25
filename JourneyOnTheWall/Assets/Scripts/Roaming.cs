@@ -44,6 +44,7 @@ namespace JourneyOnTheWall
 					isGoingAway = true;
 					target = Quaternion.Euler(targetEuler);
 					mover.Move(target);
+					lastTargetTime = Time.time;
 				}
 				else
 				{
@@ -58,6 +59,13 @@ namespace JourneyOnTheWall
 				if (height > 369 || height < -9 || (height > 9 && height < 200))
 				{
 					Destroy(gameObject);
+				}
+				else if (Time.time > lastTargetTime + 12)
+				{
+					isGoingAway = false;
+					target = GetRandomTarget();
+					mover.Move(target);
+					lastTargetTime = Time.time;
 				}
 			}
 		}
