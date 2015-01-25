@@ -105,7 +105,7 @@ namespace JourneyOnTheWall
 			if (toolConsumedPercentage > 1)
 			{
 				Tools --;
-				if (Tools < 0) Food = 0;
+				if (Tools < 0) Tools = 0;
 				toolConsumedPercentage = 0;
 			}
 			if (leatherConsumedPercentage > 1)
