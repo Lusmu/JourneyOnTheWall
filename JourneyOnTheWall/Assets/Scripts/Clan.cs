@@ -20,12 +20,16 @@ namespace JourneyOnTheWall
 		public float Leather { get; private set; }
 		public float Tools { get; private set; }
 	
+		private float foodConsumption = 0.01f;
+
 		[SerializeField]
 		private ParticleSystem foodParticles;
 		[SerializeField]
 		private ParticleSystem leatherParticles;
 		[SerializeField]
 		private ParticleSystem toolParticles;
+
+		private float foodConsumedPercentage;
 
 		private static GameObject playerClanManagerPrefab;
 		private static Clan playerClan;
@@ -100,6 +104,20 @@ namespace JourneyOnTheWall
 			}
 
 			Debug.Log("Player now has " + Food + " food, " + Leather + " leather and " + Tools + " tools");
+		}
+
+		void Update()
+		{
+			foodConsumedPercentage += PeopleCount * foodConsumption * Time.deltaTime;
+
+			if (foodConsumedPercentage > 1)
+			{
+				Food --;
+				if (Food < 0) Food = 0;
+				foodConsumedPercentage = 0;
+
+				Debug.Log("Food consumed. Food left: " + Food);
+			}
 		}
 	}
 }

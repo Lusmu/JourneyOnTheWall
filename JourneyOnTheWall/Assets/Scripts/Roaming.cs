@@ -68,7 +68,7 @@ namespace JourneyOnTheWall
 
 			var newTarget = current + Vector3.up * Random.Range(-roamingRange, roamingRange)
 				+ Vector3.right * Random.Range(-roamingRange, roamingRange);
-			newTarget.x = Mathf.Clamp(newTarget.x, 295, 350);
+			newTarget.x = Mathf.Clamp(newTarget.x, 300, 345);
 
 			return Quaternion.Euler(newTarget);
 		}
