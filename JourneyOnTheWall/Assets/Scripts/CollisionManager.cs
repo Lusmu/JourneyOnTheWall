@@ -40,6 +40,8 @@ namespace JourneyOnTheWall
 
 		void LateUpdate()
 		{
+			if (GameManager.Instance.IsGameOver) return;
+
 			var collisions = new List<CollisionData>();
 
 			for (int i = 0; i < dynamicColliders.Count; i++)
