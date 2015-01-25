@@ -131,6 +131,9 @@ namespace JourneyOnTheWall
 					count ++;
 				}
 			}
+
+
+			PeopleCount = count;
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace JourneyOnTheWall
 
 		private bool facingRight = true;
 
-		private Quaternion targetRotation;
+		public Quaternion TargetRotation { get; private set; }
 
 		private Transform tr;
 
@@ -49,16 +49,32 @@ namespace JourneyOnTheWall
 
 		private Collidable col;
 
+		[SerializeField]
+		private GameObject targetIndicatorPrefab;
+
+		private Transform targetIndicator;
+
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
 			if (anim != null) anim.SetBool("Moving", false);
 			col = GetComponent<Collidable>();
+
+			if (targetIndicatorPrefab != null)
+			{
+				var go = Instantiate(targetIndicatorPrefab) as GameObject;
+				targetIndicator = go.GetComponent<Transform>();
+				targetIndicator.SetParent(tr.parent);
+				go.SetActive(false);
+				targetIndicator.position = Vector3.zero;
+			}
+
+			TargetRotation = tr.rotation;
 		}
 
 		public void Move(Quaternion target)
 		{
-			this.targetRotation = target;
+			this.TargetRotation = target;
 			this.target = null;
 
 			isMoving = true;
@@ -67,7 +83,7 @@ namespace JourneyOnTheWall
 		public void Move(Transform target)
 		{
 			this.target = target;
-			this.targetRotation = target.rotation;
+			this.TargetRotation = target.rotation;
 			
 			isMoving = true;
 		}
@@ -114,28 +130,28 @@ namespace JourneyOnTheWall
 			if (target != null)
 			{
 				isMoving = true;
-				targetRotation = target.rotation;
+				TargetRotation = target.rotation;
 			}
 
 			if (isMoving)
 			{
-				var moveTo = Quaternion.RotateTowards(tr.rotation, targetRotation, Time.deltaTime * speed).eulerAngles;
+				var moveTo = Quaternion.RotateTowards(tr.rotation, TargetRotation, Time.deltaTime * speed).eulerAngles;
 				if (collideOnBorders) moveTo.x = Mathf.Clamp(moveTo.x, 300, 355);
 				tr.rotation = Quaternion.Euler(moveTo);
 
 				var dist = 0.1f;
 				if (col != null) dist = col.size * 0.5f;
-				if (Quaternion.Angle(tr.rotation, targetRotation) < dist) isMoving = false;
+				if (Quaternion.Angle(tr.rotation, TargetRotation) < dist) isMoving = false;
 			
 				var shouldFaceRight = true;
 
-				if (Mathf.Abs(targetRotation.eulerAngles.y - tr.eulerAngles.y) > 180)
+				if (Mathf.Abs(TargetRotation.eulerAngles.y - tr.eulerAngles.y) > 180)
 				{
-					if (targetRotation.eulerAngles.y < tr.eulerAngles.y) shouldFaceRight = false;
+					if (TargetRotation.eulerAngles.y < tr.eulerAngles.y) shouldFaceRight = false;
 				}
 				else
 				{
-					if (targetRotation.eulerAngles.y > tr.eulerAngles.y) shouldFaceRight = false;
+					if (TargetRotation.eulerAngles.y > tr.eulerAngles.y) shouldFaceRight = false;
 				}
 
 				if (defaultIsFacingRight) shouldFaceRight = !shouldFaceRight;
@@ -143,6 +159,8 @@ namespace JourneyOnTheWall
 				if (shouldFaceRight != facingRight) Flip();
 
 				anim.SetBool("Moving", true);
+
+				if (targetIndicator != null && targetIndicator.gameObject.activeInHierarchy) targetIndicator.rotation = TargetRotation;
 
 				timeIdle = 0;
 			}
@@ -159,6 +177,11 @@ namespace JourneyOnTheWall
 			}
 
 			lastPosition = tr.rotation;
+		}
+
+		public void SetTargetIndicator (bool b)
+		{
+			if (targetIndicator != null) targetIndicator.gameObject.SetActive(b);
 		}
 	}
 }

@@ -38,12 +38,12 @@ namespace JourneyOnTheWall
 
 		public void SelectCharacter(SelectableController characterController)
 		{
-			Debug.Log("Selected", characterController.gameObject);
+			if (characterController != null) Debug.Log("Selected", characterController.gameObject);
 			if (SelectedCharacter != null) SelectedCharacter.Deselect();
 
 			SelectedCharacter = characterController;
 
-			SelectedCharacter.Select();
+			if (SelectedCharacter != null) SelectedCharacter.Select();
 		}
 
 		void Update()
