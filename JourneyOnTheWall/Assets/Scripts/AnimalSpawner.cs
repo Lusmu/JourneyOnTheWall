@@ -41,7 +41,7 @@ namespace JourneyOnTheWall
 		{
 			GameObject prefab = null;
 
-			if (Random.value > animalChance1) prefab = animalPrefab1;
+			if (Random.value < animalChance1) prefab = animalPrefab1;
 			else prefab = animalPrefab2;
 
 			GameObject go = Instantiate(prefab) as GameObject;

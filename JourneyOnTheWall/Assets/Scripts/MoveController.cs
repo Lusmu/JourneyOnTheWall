@@ -86,6 +86,8 @@ namespace JourneyOnTheWall
 				{
 					lastGathered = Time.time;
 
+					anim.SetTrigger("Gather");
+
 					plant.Gather(1);
 				}
 			}
@@ -94,6 +96,8 @@ namespace JourneyOnTheWall
 				if (plant != null && plant.HasYield)
 				{
 					lastGathered = Time.time;
+
+					anim.SetTrigger("Gather");
 					
 					plant.Gather(1);
 				}
