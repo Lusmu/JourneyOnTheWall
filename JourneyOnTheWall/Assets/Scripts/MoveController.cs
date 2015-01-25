@@ -53,7 +53,7 @@ namespace JourneyOnTheWall
 		private GameObject targetIndicatorPrefab;
 
 		private Transform targetIndicator;
-
+		private bool hasTarget;
 		void Awake()
 		{
 			tr = GetComponent<Transform>();
@@ -76,7 +76,7 @@ namespace JourneyOnTheWall
 		{
 			this.TargetRotation = target;
 			this.target = null;
-
+			hasTarget = true;
 			isMoving = true;
 		}
 
@@ -84,7 +84,7 @@ namespace JourneyOnTheWall
 		{
 			this.target = target;
 			this.TargetRotation = target.rotation;
-			
+			hasTarget = true;
 			isMoving = true;
 		}
 
@@ -135,6 +135,8 @@ namespace JourneyOnTheWall
 
 			if (isMoving)
 			{
+				if (TargetRotation == Quaternion.identity) TargetRotation = tr.rotation;
+
 				var moveTo = Quaternion.RotateTowards(tr.rotation, TargetRotation, Time.deltaTime * speed).eulerAngles;
 				if (collideOnBorders) moveTo.x = Mathf.Clamp(moveTo.x, 300, 355);
 				tr.rotation = Quaternion.Euler(moveTo);

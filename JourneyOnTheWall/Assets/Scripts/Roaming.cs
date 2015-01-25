@@ -56,7 +56,7 @@ namespace JourneyOnTheWall
 			if (isGoingAway)
 			{
 				var height = GetComponent<Transform>().eulerAngles.x;
-				if (height > 369 || height < -9 || (height > 9 && height < 200))
+				if (height > 361 || height < -1 || (height > 5 && height < 270))
 				{
 					Destroy(gameObject);
 				}
