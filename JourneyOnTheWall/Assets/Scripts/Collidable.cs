@@ -13,6 +13,8 @@ namespace JourneyOnTheWall
 
 		public Quaternion TempRotation { get; set; }
 
+		public bool collidesWithBorders = true;
+
 		void Awake()
 		{
 			tr = GetComponent<Transform>();

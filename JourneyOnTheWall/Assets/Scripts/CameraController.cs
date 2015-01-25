@@ -18,6 +18,8 @@ namespace JourneyOnTheWall
 		private float zoomSpeedScroll = 10;
 		[SerializeField]
 		private float zoomSpeedPinch = 10;
+		[SerializeField]
+		private RectTransform backCollider;
 
 		private bool isDragging = false;
 
@@ -125,6 +127,8 @@ namespace JourneyOnTheWall
 			tr.eulerAngles = newRotation;
 
 			lastMousePosition = Input.mousePosition;
+
+			backCollider.sizeDelta = new Vector2(Screen.width, Screen.height);
 		}
 	}
 }
