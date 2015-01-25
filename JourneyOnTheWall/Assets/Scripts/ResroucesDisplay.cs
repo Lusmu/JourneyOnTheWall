@@ -22,7 +22,8 @@ namespace JourneyOnTheWall
 
 		void Awake () 
 		{
-		/*	GameObject foodParent = new GameObject ("foodParent");
+			/*
+			GameObject foodParent = new GameObject ("foodParent");
 			GameObject leatherParent = new GameObject ("leatherParent");
 			GameObject toolsParent = new GameObject ("toolsParent");
 
@@ -41,7 +42,8 @@ namespace JourneyOnTheWall
 			tools.GetComponent<Transform> ().SetParent (toolsParent);
 
 			food.GetComponent<SpriteRenderer> ().sprite = countBar [2];
-*/
+			*/
+
 		}
 
 
