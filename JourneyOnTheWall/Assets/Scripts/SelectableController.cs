@@ -10,7 +10,6 @@ namespace JourneyOnTheWall
 		[SerializeField]
 		private AudioClip[] selectAudioClips;
 
-
 		[SerializeField]
 		private Button button;
 		[SerializeField]
@@ -34,15 +33,11 @@ namespace JourneyOnTheWall
 			//clipSource.Play ();
 			if (selectAudioClips.Length > 0) 
 				audio.PlayOneShot (selectAudioClips[Random.Range(0,selectAudioClips.Length)], 0.5F);
-
-
 		}
 
 		public void Deselect()
 		{
 			spriteRenderer.color = defaultColor;
 		}
-	
-
 	}
 }
